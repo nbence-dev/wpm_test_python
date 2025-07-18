@@ -2,13 +2,42 @@
 from tkinter import *
 
 
-def change_time():
-    pass
+started_timer = False
+total_words = 0
+time_left = 0
+minutes = 0
+
+# def rb_set_time():
 
 
 def on_typing(event=None):
+    global started_timer, total_words, time_left, minutes
+    if not started_timer:
+        time_left = selected_option.get()
+        minutes = time_left / 60
+        start_timer()
+        started_timer = True
     current_text = text_field.get("1.0", END).strip()
     print("Live input:", current_text)
+    word_list = current_text.split(" ")
+    total_words = len(word_list)
+
+
+def start_timer():
+    global time_left, total_words, minutes
+    if time_left > 0:
+        time_left -= 1
+        root.after(1000, start_timer)
+        print(time_left)
+    else:
+        text_field.config(state=DISABLED)
+        # calc word per minute
+        wpm = total_words / minutes
+        print(f"WPM: {wpm}")
+
+
+def change_time():
+    pass
 
 
 def close_app():
