@@ -37,10 +37,10 @@ def on_typing(event=None):
             text_field.tag_add(tag,f"1.{i}",f"1.{i+1}")
 
     text_field.config(state=DISABLED)
-    current_text = text_input.get("1.0", END).strip()
-    # print("Live input:", current_text)
-    word_list = current_text.split(" ")
-    total_words = len(word_list)
+
+    passage_words = passage.split()
+    typed_words = typed.split()
+    total_words = sum(1 for i, word in enumerate(typed_words) if i < len(passage_words) and word == passage_words[i])
 
 
 def start_timer():
@@ -57,9 +57,6 @@ def start_timer():
         wpm = total_words / minutes
         wpm_label.config(text=f"WPM: {wpm:.1f}")
 
-
-def change_time():
-    pass
 
 
 def close_app():
@@ -106,7 +103,7 @@ for opt in options:
         text=opt,
         variable=selected_option,
         value=options[opt],
-        command=change_time,
+        
     )
     rb.configure(bg="gray")
     rb.pack()
